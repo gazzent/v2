@@ -1,0 +1,38 @@
+┌──────────────────────────────────────────┐
+│               PORT SERVICE INFO          │
+└──────────────────────────────────────────┘
+┌──────────────────────────────────────────┐
+│   > Service & Port                            │
+│   - Open SSH                : 22, 2222        │
+│   - Dropbear                : 109, 143        │
+│   - Nginx Webserver         : 81              │
+│   - Haproxy Loadbalancer    : 443, 80         │
+│   - SSH Udp-Custom          : 54-65535        │
+│   - SSH Websocket SSL       : 443             │
+│   - SSH Websocket           : 80, 8080, 8880  │
+│   - SSL TLS/SNI             : 443             │
+│   - OpenVPN SSL             : 443             │
+│   - OpenVPN TCP             : 1194            │
+│   - OpenVPN UDP             : 2200            │
+│   - SlowDNS Server          : 443, 53         │
+│   - Psiphon Server          : 8443            │
+│   - XRAY Vmess TLS          : 443             │
+│   - XRAY Vmess gRPC         : 443             │
+│   - XRAY Vmess None TLS     : 80              │
+│   - XRAY Vless TLS          : 443             │
+│   - XRAY Vless gRPC         : 443             │
+│   - XRAY Vless None TLS     : 80              │
+│   - XRAY Trojan None TLS    : 443             │
+│   - XRAY Trojan gRPC        : 443             │
+│   - XRAY Trojan None TLS    : 80              │
+│   - XRAY Shadowsocks TLS    : 443             │
+│   - XRAY Shadowsocks gRPC   : 443             │
+│   - XRAY Shadowsocks NTLS   : 80              │
+│   - BadVPN                  : 7100 - 7300     │
+│   - Proxy Squid             : 3128            │
+└──────────────────────────────────────────┘
+┌──────────────────────────────────────────┐
+│   > Contact & Info                            │
+│   - My Telegram       : t.me/CandraVpnz │
+│   - Dev / Main        : kingstore x candra         │
+└──────────────────────────────────────────┘

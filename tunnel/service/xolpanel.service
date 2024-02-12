@@ -1,0 +1,12 @@
+[Unit]
+Description=Simple XolPanel - @mehonk_mt
+Documentation=https://t.me/makhlukvpn_group
+After=network.target
+
+[Service]
+WorkingDirectory=/root/.config
+ExecStart=/usr/bin/python3 -m xolpanel
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

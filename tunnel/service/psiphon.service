@@ -1,0 +1,16 @@
+[Unit]
+Description=Psiphon OSSH service
+Documentation=https://t.me/makhlukvpn_group
+After=syslog.target network-online.target
+
+[Service]
+Type=simple
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+ExecStart=/usr/sbin/psiphon run
+WorkingDirectory=/root/.config/psiphon/
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

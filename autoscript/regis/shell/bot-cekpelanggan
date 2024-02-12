@@ -1,0 +1,48 @@
+#!/bin/bash
+# Edition : Stable Edition V1.0
+# Auther  : Muh Aripin Ilham
+# (C) Copyright 2024-2024 By Under Tunnel
+# =========================================
+#!/bin/bash
+clear                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                #!/bin/bash
+source '/root/id'
+ipsaya=$(curl -sS ipv4.icanhazip.com)
+until [[ $ipsaya =~ ^[0-9.]+$ && ${PELANGGAN} == '1' ]]; do
+    PELANGGAN=$(wget -qO- https://raw.githubusercontent.com/FighterTunnel/tunnel/main/fodder/bhoikfostyahya/client | grep -w $ipsaya | wc -l)
+    if [[ ${PELANGGAN} == '0' ]]; then
+    echo -e "KAMU TIDAK DI IJINKAN MENGGUNAKAN AKSES ADMIN"
+    exit
+    fi
+done
+until [[ $ipvps =~ ^[0-9.]+$ && ${CLIENT_EXISTS} == '1' ]]; do
+    read -p "Ip VPS : " ipvps
+    CLIENT_EXISTS=$(curl -sS https://sc-xray.yha.my.id/ip | grep -w $ipvps | wc -l)
+    if [[ ${CLIENT_EXISTS} == '0' ]]; then
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo -e "🦂PELANGGAN TIDAK TERSEDIA🦂"
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo -e ""
+        echo -e "    UNTUK MELANJUATKAN "
+        echo -e " SILAHKAN PERPANJANG IP VPS"
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo -e "      Contact Admin :"
+        echo -e "    Telegram $TELEGRAM"
+        echo -e "WhatsApp $WHATSAPP"
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        exit
+    fi
+done
+NAME=$(curl -sS https://sc-xray.yha.my.id/ip | grep $ipvps | cut -d ' ' -f 2 | sort | uniq)
+TIME=$(curl -sS https://sc-xray.yha.my.id/ip | grep $ipvps | cut -d ' ' -f 3 | sort | uniq)
+IPVPS=$(curl -sS https://sc-xray.yha.my.id/ip | grep $ipvps | cut -d ' ' -f 4 | sort | uniq)
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo -e "🍀   INFORMASI CLIENT    🍀"
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo -e "🌹NAME AUTHOR : $NAME"
+echo -e "🏵️SCRIPT TIME : $TIME Days"
+echo -e "🌺IP SERVER   : $IPVPS"
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo -e "      Contact Admin :"
+echo -e "   Telegram $TELEGRAM"
+echo -e "WhatsApp $WHATSAPP"
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

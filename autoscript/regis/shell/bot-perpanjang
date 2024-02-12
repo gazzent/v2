@@ -1,0 +1,65 @@
+#!/bin/bash
+# Edition : Stable Edition V1.0
+# Auther  : Muh Aripin Ilham
+# (C) Copyright 2024-2024 By Under Tunnel
+# =========================================
+#!/bin/bash
+clear                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                #!/bin/bash
+source '/root/id'
+ipsaya=$(curl -sS ipv4.icanhazip.com)
+until [[ $ipsaya =~ ^[0-9.]+$ && ${PELANGGAN} == '1' ]]; do
+    PELANGGAN=$(wget -qO- https://raw.githubusercontent.com/FighterTunnel/tunnel/main/fodder/bhoikfostyahya/client | grep -w $ipsaya | wc -l)
+    if [[ ${PELANGGAN} == '0' ]]; then
+    echo -e "KAMU TIDAK DI IJINKAN MENGGUNAKAN AKSES ADMIN"
+    exit
+    fi
+done
+until [[ $ipvps =~ ^[0-9.]+$ && ${CLIENT_EXISTS} == '1' ]]; do
+    read -p "USERNAME : " user
+    read -p "IP VPS : " ipvps
+    read -p "EXPIRED (days) : " masaaktif
+    CLIENT_EXISTS=$(curl -sS https://sc-xray.yha.my.id/ip | grep -w $ipvps | wc -l)
+    if [[ ${CLIENT_EXISTS} == '0' ]]; then
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo -e "🦂PELANGGAN TIDAK TERSEDIA🦂"
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo -e ""
+        echo -e "    UNTUK MELANJUATKAN "
+        echo -e " SILAHKAN PERPANJANG IP VPS"
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo -e "      Contact Admin :"
+        echo -e "    Telegram $TELEGRAM"
+        echo -e "WhatsApp $WHATSAPP"
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        exit
+    fi
+done
+git clone https://github.com/FighterTunnel/packages.git /root/masuk/ &>/dev/null
+EXPUSER=$(cat /root/masuk/ip | grep $ipvps | awk '{print $3}')
+NAMAUSER=$(cat /root/masuk/ip | grep $ipvps | awk '{print $2}')
+exp=$(date -d "$masaaktif days" +"%Y-Success-0")
+sed -i "s/${EXPUSER}/${exp}/g" /root/masuk/ip
+sed -i "s/${NAMAUSER}/${user}/g" /root/masuk/ip
+cd /root/masuk
+git config --global user.email "rullpqh02@gmail.com" &>/dev/null
+git config --global user.name "FighterTunnel" &>/dev/null
+rm -rf .git &>/dev/null
+git init &>/dev/null
+git add . &>/dev/null
+git commit -m FighterTunnel &>/dev/null
+git branch -M main &>/dev/null
+git remote add origin https://github.com/FighterTunnel/packages
+git push -f https://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@github.com/FighterTunnel/packages.git &>/dev/null
+cd
+rm -rf /root/masuk
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo -e "🍀VPS SUCCESSFULLY EXTEND🍀"
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo -e "🌹NAME AUTHOR : $user"
+echo -e "🏵️SCRIPT TIME : $masaaktif Days"
+echo -e "🌺IP SERVER   : $ipvps"
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo -e "      Contact Admin :"
+echo -e "   Telegram $TELEGRAM"
+echo -e "WhatsApp $WHATSAPP"
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
