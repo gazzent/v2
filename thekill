@@ -53,7 +53,7 @@ MakhlukVpn() {
 sudo apt install curl -y
 sudo apt install wget -y
 sudo apt install vnstat -y
-MYIP=$(wget -qO- ipinfo.io/ip);
+MYIP=$(wget -qO- ipv4.icanhazip.com);
 IZIN=$(curl -sS https://raw.githubusercontent.com/gazzent/ip/main/ip | grep $MYIP | awk '{print $1}')
 valid=$(curl -sS https://raw.githubusercontent.com/gazzent/ip/main/ip | grep $MYIP | awk '{print $4}')
 Name=$(curl -sS https://raw.githubusercontent.com/gazzent/ip/main/ip | grep $MYIP | awk '{print $3}')
@@ -78,7 +78,6 @@ echo -e "$Lyellow         Autoscript By HAFIRA"$NC
 echo -e "$Lyellow             CONTACT TELEGRAM"$NC
 echo -e "$Lyellow            https://t.me/Candravpnz"$NC
 echo -e "$green└──────────────────────────────────────────┘"$NC
-exit 0
 fi
 echo "INSTALLING SCRIPT..."
 cat >/root/.user.ini <<-END
