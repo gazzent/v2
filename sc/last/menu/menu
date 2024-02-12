@@ -1,0 +1,195 @@
+#!/bin/bash
+# Edition : Stable Edition V2.0
+# Auther  : Muh Aripin Ilham
+# (C) Copyright 2023-2024 By  Under Tunnel
+# =========================================
+#!/bin/bash
+g=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 2)
+gb=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 3)
+b=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 4)
+p=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 5)
+r=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 6)
+y=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 7)
+MYIP=$(wget -qO- ipv4.icanhazip.com);
+repo=https://raw.githubusercontent.com/gazzent/ip/main/ip
+ipsaya=$(wget -qO- ipv4.icanhazip.com);
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+useexp=$(wget -qO- ${repo} | grep $ipsaya | awk '{print $4}')
+if [[ $date_list < $useexp ]]; then
+echo -ne
+else
+echo -e "${g}────────────────────────────────────────────${p}"
+echo -e "${b}          404 NOT FOUND AUTOSCRIPT          ${p}"
+echo -e "${g}────────────────────────────────────────────${p}"
+echo -e ""
+echo -e "            ${r}PERMISSION DENIED OR!${p}"
+echo -e "   ${y}Your VPS${p} $ipsaya ${y}Expired${p}"
+echo -e "     ${y}Buy access permissions for scripts${p}"
+echo -e "             ${y}Contact Admin :${p}"
+echo -e "      ${gb}Telegram${p} t.me/CandraVpnz"
+echo -e "${g}────────────────────────────────────────────${p}"
+exit
+fi
+today=$(date -d "0 days" +"%Y-%m-%d")
+d1=$(date -d "$useexp" +%s)
+d2=$(date -d "$today" +%s)
+Exp=$(((d1 - d2) / 86400))
+ISP=$(cat /etc/xray/isp)
+MYIP=$(wget -qO- ipv4.icanhazip.com);
+Name=$(curl -sS https://raw.githubusercontent.com/gazzent/ip/main/ip | grep $MYIP | awk '{print $3}')
+Versi=$(cat /usr/sbin/mtsc.list | grep "^versi" | cut -d " " -f 2 )
+CITY=$(cat /etc/xray/city)
+IPVPS=$(curl -s ipv4.icanhazip.com)
+CMD=$(ip -4 route show to default | awk '{print $5}');
+RAM=$(free -m | awk 'NR==2 {print $2}')
+USAGERAM=$(free -m | awk 'NR==2 {print $3}')
+MEMOFREE=$(printf '%-1s' "$(free -m | awk 'NR==2{printf "%.2f%%", $3*100/$2 }')")
+LOADCPU=$(printf '%-0.00001s' "$(top -bn1 | awk '/Cpu/ { cpu = "" 100 - $8 "%" }; END { print cpu }')")
+MODEL=$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')
+CORE=$(printf '%-1s' "$(grep -c cpu[0-9] /proc/stat)")
+Dev="UndersTunnel"
+uptime="$(uptime -p | cut -d " " -f 2-10)"
+domain=$(cat /etc/xray/domain)
+ISP=$(cat /etc/xray/isp)
+NS=$(cat /etc/xray/dns)
+DATEVPS=$(date +'%d/%m/%Y')
+TIMEZONE=$(printf '%(%H:%M:%S)T')
+SERONLINE=$(uptime -p | cut -d " " -f 2-10000)
+vm=$(cat /etc/vmess/.vmess.db | grep "###" | wc -l)
+vl=$(cat /etc/vless/.vless.db | grep "###" | wc -l)
+tr=$(cat /etc/trojan/.trojan.db | grep "###" | wc -l)
+ss=$(cat /etc/shadowsocks/.shadowsocks.db | grep "###" | wc -l)
+ssh=$(cat /etc/ssh/.ssh.db | grep "###" | wc -l)
+clear
+#####INFOAKUN
+vlx=$(grep -c -E "^#& " "/etc/xray/config.json")
+let vla=$vlx/2
+vmc=$(grep -c -E "^### " "/etc/xray/config.json")
+let vma=$vmc/2
+ssh1="$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd | wc -l)"
+trx=$(grep -c -E "^#! " "/etc/xray/config.json")
+let trb=$trx/2
+ssx=$(grep -c -E "^#ss# " "/etc/xray/config.json")
+let ssa=$ssx/2
+###########
+KANAN="\033[1;32m<\033[1;33m<\033[1;31m<\033[1;31m$NC"
+KIRI="\033[1;32m>\033[1;33m>\033[1;31m>\033[1;31m$NC"
+########
+r="\033[1;31m"  #REDTERANG
+a=" ${CYAN} PREMIUM" 
+echo -e " "
+#figlet  MyRidwanVPN  | lolcat
+#Warna Teks underline
+ug="\033[4;32m" # HIJAU
+ur="\033[4;31m" # MERAH
+uy="\033[4;33m" # KUNING
+uw="\033[4;37m" # PUTIH
+uu="\033[4;35m" # UNGU
+uc="\033[4;36m" # CYANN
+ub="\033[4;30m" # BLACK
+#Warna Text 
+c="\e[1;36m" # CYANN
+y="\e[1;33m" # KUNING
+g="\e[1;32m" # HIJAU
+w="\e[1;37m" # PUTIH
+u="\e[1;35m" # UNGU
+r="\e[1;31m" # MERAH
+NC="\e[0m"
+# background
+GB="\033[42;37m" # HIJAU BACKGROUND
+RB="\033[41;37m" # MERAH BACKGROUND
+MYIP=$(curl -sS ipv4.icanhazip.com)
+vm=$(cat /etc/vmess/.vmess.db | grep "###" | wc -l)
+vl=$(cat /etc/vless/.vless.db | grep "###" | wc -l)
+tr=$(cat /etc/trojan/.trojan.db | grep "###" | wc -l)
+ss=$(cat /etc/shadowsocks/.shadowsocks.db | grep "###" | wc -l)
+ssh=$(cat /etc/ssh/.ssh.db | grep "###" | wc -l)
+UDPX="https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1S3IE25v_fyUfCLslnujFBSBMNunDHDk2' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1S3IE25v_fyUfCLslnujFBSBMNunDHDk2"
+clear   
+echo -e " ${w}${NC}"
+echo -e "       ───────────────────────────────────────────"
+echo -e "       ${GB}            CANDRA VPNZ TUNNEL              ${NC}" 
+echo -e "       ───────────────────────────────────────────"
+ echo -e "          ┌──────────────────────────────────┐"                   
+ echo -e "          │ ${c} SYSTEM OS : $MODEL ${NC}"
+ echo -e "          │ ${c} ISP VPS   : $ISP ${NC}"
+ echo -e "          │ ${c} CPU       : $CORE CORE${NC}" 
+ #echo -e "          │ ${c} RAM       : $RAM Mb ${NC}"
+ echo -e "          │ ${c} UPTIME    : $uptime ${NC}"
+ echo -e "          │ ${c} IP VPS    : $IPVPS ${NC}"
+ echo -e "          │ ${c} DOMAIN    : $domain ${NC}"
+ echo -e "          │ ${c} NSDOMAIN  : $NS ${NC}"
+ echo -e "          │ ${c} User SC   : $Name${NC}"
+ echo -e "          │ ${c} Xpired    : $Exp$NC ($r$certifacate${NC} Days)"
+ echo -e "          └──────────────────────────────────┘"  
+echo -e "                    ssh : $ssh1  vmess : $vm"
+echo -e "             shadow : $ssa vless : $vl  trojan : $tr"
+echo -e "       ${r}┌──────────────────────────────────────────┐${NC}" 
+echo -e "       ${r}│ [${u}•1${y}]${NC} SSH & UDP  "           "   ${y}[${u}•6${y}]${NC} DOMAIN MENU"
+echo -e "       ${r}│ [${u}•2${y}]${NC} VMESS Xray "           "   ${y}[${u}•7${y}]${NC} SERVICE MENU"  
+echo -e "       ${r}│ [${u}•3${y}]${NC} VLESS Xray "           "   ${y}[${u}•8${y}]${NC} SPEEDTEST  " 
+echo -e "       ${r}│ [${u}•4${y}]${NC} TROJAN-WS  "           "   ${y}[${u}•9${y}]${NC} BACKUP MENU"
+echo -e "       ${r}│ [${u}•5${y}]${NC} SHADOWSOCK "           "   ${y}[${u}10${y}]${NC} OTHER MENU"
+echo -e "       ${r}│ [${u}•11${y}]${NC} FIX UDP "             "   ${y}[${u}12${y}]${NC} REBOOT VPS"
+echo -e "       ${r}└──────────────────────────────────────────┘${NC}"
+echo -e "                          "
+echo -e "      ${w}               Version : 3.1.0 ${NC}"
+echo -e "                     ${y}___${r}___${u}___${w}___${c}___${g}${NC}"
+echo -e   "${g}"
+read -p "   Select From Options [ 1 - 12 ] : " menu
+case $menu in
+1)
+clear
+ssh
+;;
+2)
+clear
+vmess
+;;
+3)
+clear
+vless
+;;
+4)
+clear
+trojan
+;;
+5)
+clear
+shadowsocks
+;;
+6)
+clear
+get-domain
+;;
+7)
+clear
+get-service
+;;
+8)
+clear
+speedtest
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+menu
+;;
+9)
+clear
+get-backres
+;;
+10)
+clear
+others
+;;
+11)
+clear
+wget https://raw.githubusercontent.com/Fv-store/free/main/fodder/ins-udp && chmod +x ins-udp && ./ins-udp
+;;
+12)
+clear
+reboot
+;;
+*)
+statx
+;;
+esac

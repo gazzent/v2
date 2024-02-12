@@ -1,0 +1,81 @@
+#!/bin/bash
+# Edition : Stable Edition V2.0
+# Auther  : Muh Aripin Ilham
+# (C) Copyright 2023-2024 By  Under Tunnel
+# =========================================
+#!/bin/bash
+g=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 2)
+gb=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 3)
+b=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 4)
+p=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 5)
+r=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 6)
+y=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 7)
+MYIP=$(wget -qO- ipv4.icanhazip.com);
+echo "Loading..."
+repo=https://raw.githubusercontent.com/gazzent/ip/main/ip
+ipsaya=$(wget -qO- ipv4.icanhazip.com);
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+useexp=$(wget -qO- ${repo} | grep $ipsaya | awk '{print $4}')
+if [[ $date_list < $useexp ]]; then
+echo -ne
+else
+echo -e "${g}────────────────────────────────────────────${p}"
+echo -e "${b}          404 NOT FOUND AUTOSCRIPT          ${p}"
+echo -e "${g}────────────────────────────────────────────${p}"
+echo -e ""
+echo -e "            ${r}PERMISSION DENIED OR!${p}"
+echo -e "   ${y}Your VPS${p} $ipsaya ${y}Expired${p}"
+echo -e "     ${y}Buy access permissions for scripts${p}"
+echo -e "             ${y}Contact Admin :${p}"
+echo -e "      ${gb}Telegram${p} t.me/mehonk_mt"
+echo -e "${g}────────────────────────────────────────────${p}"
+exit
+fi
+if [ ! -e /etc/ssh ]; then
+mkdir -p /etc/ssh
+touch /etc/ssh/.ssh.db
+fi
+vms=$(cat /etc/ssh/.ssh.db)
+if [[ $vms = "" ]]; then
+ssh="0"
+else
+ssh=$(cat /etc/ssh/.ssh.db | grep "###" | wc -l)
+fi
+clear
+echo -e " ${g}┌──────────────────────────────────────────┐${p}"
+echo -e " ${g}│${b}         SSH OpenVPN MANAGER           ${p}"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e " ${g}┌──────────────────────────────────────────┐${p}"
+echo -e " ${g}│  ${gb}[1]•${p} ${b}Creating a SSH OVPN Account${p}"
+echo -e " ${g}│  ${gb}[2]•${p} ${b}Triall a SSH OVPN Account${p}"
+echo -e " ${g}│  ${gb}[3]•${p} ${b}Delete SSH OVPN Account${p}"
+echo -e " ${g}│  ${gb}[4]•${p} ${b}Renew SSH OVPN Account${p}"
+echo -e " ${g}│  ${gb}[5]•${p} ${b}Check SSH OVPN login Account${p}"
+echo -e " ${g}│  ${gb}[6]•${p} ${b}Check Info SSH OVPN Config${p}"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e ""
+read -p "   Select From Options [ 1 - 6 ] : " menu
+case $menu in
+1)
+add-ssh
+;;
+2)
+triall-ssh
+;;
+3)
+del ssh
+;;
+4)
+ren ssh
+;;
+5)
+cek ssh
+;;
+6)
+log ssh
+;;
+*)
+menu
+;;
+esac

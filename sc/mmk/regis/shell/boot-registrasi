@@ -1,0 +1,66 @@
+#!/bin/bash
+# Edition : Stable Edition V1.0
+# Auther  : Muh Aripin Ilham
+# (C) Copyright 2024-2024 By Under Tunnel
+# =========================================
+#!/bin/bash
+clear                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                #!/bin/bash
+source '/root/id'
+ipsaya=$(curl -sS ipv4.icanhazip.com)
+until [[ $ipsaya =~ ^[0-9.]+$ && ${PELANGGAN} == '1' ]]; do
+    PELANGGAN=$(wget -qO- https://raw.githubusercontent.com/irawancandra6699/izin/main/ipbot | grep -w $ipsaya | wc -l)
+    if [[ ${PELANGGAN} == '0' ]]; then
+    echo -e "KAMU TIDAK DI IJINKAN MENGGUNAKAN AKSES ADMIN"
+    exit
+    fi
+done
+secs_to_human() {
+    git clone https://github.com/irawancandra6699/izin.git /root/masuk/ &>/dev/null
+    exp=$(date -d "$masaaktif days" +"%Y-Success-0")
+    sed -i '/#vps$/a\### '"$user $exp $ipvps"'' /root/masuk/ip
+    cd /root/masuk
+    git config --global user.email "irawancandra6699@gmail.com" &>/dev/null
+    git config --global user.name "irawancandra6699" &>/dev/null
+    rm -rf .git &>/dev/null
+    git init &>/dev/null
+    git add . &>/dev/null
+    git commit -m irawancandra6699 &>/dev/null
+    git branch -M main &>/dev/null
+    git remote add origin https://github.com/irawancandra6699/izin
+    git push -f https://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@github.com/irawancandra6699/izin.git &>/dev/null
+    cd
+    rm -rf /root/masuk
+}
+
+until [[ $ipvps =~ ^[0-9.]+$ && ${CLIENT_EXISTS} == '0' ]]; do
+    read -p "USERNAME : " user
+    read -p "IP VPS : " ipvps
+    read -p "EXPIRED (days) : " masaaktif
+    CLIENT_EXISTS=$(curl -sS https://raw.githubusercontent.com/irawancandra6699/izin/main/ip | grep -w $ipvps | wc -l)
+    if [[ ${CLIENT_EXISTS} == '1' ]]; then
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo -e "🦂PELANGGAN TELAH TERSEDIA🦂"
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo -e ""
+        echo -e "    UNTUK MELANJUATKAN "
+        echo -e " SILAHKAN PERPANJANG IP VPS"
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo -e "      Contact Admin :"
+        echo -e "    Telegram $TELEGRAM"
+        echo -e "WhatsApp $WHATSAPP"
+        echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        exit
+    fi
+done
+secs_to_human
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo -e "💠VPS SUCCESSFULLY ENTERED💠"
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo -e "  ☘️NAME AUTHOR : $user"
+echo -e "  ☘️SCRIPT TIME : $masaaktif Days"
+echo -e "  ☘️IP SERVER   : $ipvps"
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo -e "      Contact Admin :"
+echo -e "   Telegram @Candravpnz"
+echo -e "WhatsApp 081573872702"
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

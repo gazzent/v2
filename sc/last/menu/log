@@ -1,0 +1,168 @@
+#!/bin/bash
+# Edition : Stable Edition V2.0
+# Auther  : Muh Aripin Ilham
+# (C) Copyright 2023-2024 By  Under Tunnel
+# =========================================
+#!/bin/bash
+g=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 2)
+gb=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 3)
+b=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 4)
+p=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 5)
+r=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 6)
+y=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 7)
+MYIP=$(wget -qO- ipv4.icanhazip.com);
+echo "Loading..."
+repo=https://raw.githubusercontent.com/gazzent/ip/main/ip
+ipsaya=$(wget -qO- ipv4.icanhazip.com);
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+useexp=$(wget -qO- ${repo} | grep $ipsaya | awk '{print $4}')
+if [[ $date_list < $useexp ]]; then
+echo -ne
+else
+echo -e "${g}────────────────────────────────────────────${p}"
+echo -e "${b}          404 NOT FOUND AUTOSCRIPT          ${p}"
+echo -e "${g}────────────────────────────────────────────${p}"
+echo -e ""
+echo -e "            ${r}PERMISSION DENIED OR!${p}"
+echo -e "   ${y}Your VPS${p} $ipsaya ${y}Expired${p}"
+echo -e "     ${y}Buy access permissions for scripts${p}"
+echo -e "             ${y}Contact Admin :${p}"
+echo -e "      ${gb}Telegram${p} t.me/mehonk_mt"
+echo -e "${g}────────────────────────────────────────────${p}"
+exit
+fi
+vm() {
+clear
+NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/etc/vmess/.vmess.db")
+echo -e "${g}┌──────────────────────────────────────────┐${p}"
+echo -e " ${b}            Informasi Vmess Account         ${p}"
+echo -e "${g}└──────────────────────────────────────────┘${p}"
+echo -e "${g}┌──────────────────────────────────────────┐${p}"
+echo -e "  ${g}────────────────────────────────────────${p}"
+grep -E "^### " "/etc/vmess/.vmess.db" | cut -d ' ' -f 2-3 | nl -s ') '
+echo -e "${g}└──────────────────────────────────────────┘${p}"
+until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
+if [[ ${CLIENT_NUMBER} == '1' ]]; then
+read -rp "Select one client [1]: " CLIENT_NUMBER
+else
+read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+fi
+done
+user=$(grep -E "^### " "/etc/vmess/.vmess.db" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
+clear
+cat < /etc/vmess/${user}.log
+echo -e " "
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+vmess
+}
+vl() {
+clear
+NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/etc/vless/.vless.db")
+echo -e "${g}┌──────────────────────────────────────────┐${p}"
+echo -e " ${b}            Informasi Vless Account         ${p}"
+echo -e "${g}└──────────────────────────────────────────┘${p}"
+echo -e "${g}┌──────────────────────────────────────────┐${p}"
+echo -e "  ${g}────────────────────────────────────────${p}"
+grep -E "^### " "/etc/vless/.vless.db" | cut -d ' ' -f 2-3 | nl -s ') '
+echo -e "${g}└──────────────────────────────────────────┘${p}"
+until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
+if [[ ${CLIENT_NUMBER} == '1' ]]; then
+read -rp "Select one client [1]: " CLIENT_NUMBER
+else
+read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+fi
+done
+user=$(grep -E "^### " "/etc/vless/.vless.db" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
+clear
+cat < /etc/vless/${user}.log
+echo -e " "
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+vless
+}
+tr() {
+clear
+NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/etc/trojan/.trojan.db")
+echo -e "${g}┌──────────────────────────────────────────┐${p}"
+echo -e " ${b}            Informasi Trojan Account         ${p}"
+echo -e "${g}└──────────────────────────────────────────┘${p}"
+echo -e "${g}┌──────────────────────────────────────────┐${p}"
+grep -E "^### " "/etc/trojan/.trojan.db" | cut -d ' ' -f 2-3 | nl -s ') '
+echo -e "${g}└──────────────────────────────────────────┘${p}"
+until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
+if [[ ${CLIENT_NUMBER} == '1' ]]; then
+read -rp "Select one client [1]: " CLIENT_NUMBER
+else
+read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+fi
+done
+user=$(grep -E "^### " "/etc/trojan/.trojan.db" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
+clear
+cat < /etc/trojan/${user}.log
+echo -e " "
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+trojan
+}
+ss() {
+clear
+NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/etc/shadowsocks/.shadowsocks.db")
+echo -e "${g}┌──────────────────────────────────────────┐${p}"
+echo -e " ${b}            Informasi Shadowsock Account         ${p}"
+echo -e "${g}└──────────────────────────────────────────┘${p}"
+echo -e "${g}┌──────────────────────────────────────────┐${p}"
+echo -e "  ${g}────────────────────────────────────────${p}"
+grep -E "^### " "/etc/shadowsocks/.shadowsocks.db" | cut -d ' ' -f 2-3 | nl -s ') '
+echo -e "${g}└──────────────────────────────────────────┘${p}"
+until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
+if [[ ${CLIENT_NUMBER} == '1' ]]; then
+read -rp "Select one client [1]: " CLIENT_NUMBER
+else
+read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+fi
+done
+user=$(grep -E "^### " "/etc/shadowsocks/.shadowsocks.db" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
+clear
+cat < /etc/shadowsocks/${user}.log
+echo -e " "
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+shadowsocks
+}
+sssh() {
+clear
+NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/etc/ssh/.ssh.db")
+echo -e "${g}┌──────────────────────────────────────────┐${p}"
+echo -e " ${b}            Informasi Ssh Account         ${p}"
+echo -e "${g}└──────────────────────────────────────────┘${p}"
+echo -e "${g}┌──────────────────────────────────────────┐${p}"
+echo -e "  ${g}────────────────────────────────────────${p}"
+grep -E "^### " "/etc/ssh/.ssh.db" | cut -d ' ' -f 2-3 | nl -s ') '
+echo -e "${g}└──────────────────────────────────────────┘${p}"
+until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
+if [[ ${CLIENT_NUMBER} == '1' ]]; then
+read -rp "Select one client [1]: " CLIENT_NUMBER
+else
+read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+fi
+done
+user=$(grep -E "^### " "/etc/ssh/.ssh.db" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
+clear
+cat < /etc/ssh/${user}.log
+echo -e " "
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+ssh
+}
+if [[ ${1} == "vmess" ]]; then
+vm
+fi
+if [[ ${1} == "vless" ]]; then
+vl
+fi
+if [[ ${1} == "trojan" ]]; then
+tr
+fi
+if [[ ${1} == "ssh" ]]; then
+sssh
+fi
+if [[ ${1} == "ss" ]]; then
+ss
+fi

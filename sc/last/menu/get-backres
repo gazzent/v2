@@ -1,0 +1,217 @@
+#!/bin/bash
+# Edition : Stable Edition V2.0
+# Auther  : Muh Aripin Ilham
+# (C) Copyright 2023-2024 By  Under Tunnel
+# =========================================
+#!/bin/bash
+g=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 2)
+gb=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 3)
+b=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 4)
+p=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 5)
+r=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 6)
+y=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 7)
+MYIP=$(wget -qO- ipv4.icanhazip.com);
+source '/root/.config/xolpanel/var.txt'
+echo "Loading..."
+repo=https://raw.githubusercontent.com/gazzent/ip/main/ip
+ipsaya=$(wget -qO- ipv4.icanhazip.com);
+IP=$(wget -qO- ipv4.icanhazip.com);
+MEK=$(date +"%Y-%m-%d")
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+useexp=$(wget -qO- ${repo} | grep $ipsaya | awk '{print $4}')
+if [[ $date_list < $useexp ]]; then
+echo -ne
+else
+echo -e "${g}────────────────────────────────────────────${p}"
+echo -e "${b}          404 NOT FOUND AUTOSCRIPT          ${p}"
+echo -e "${g}────────────────────────────────────────────${p}"
+echo -e ""
+echo -e "            ${r}PERMISSION DENIED OR!${p}"
+echo -e "   ${y}Your VPS${p} $ipsaya ${y}Expired${p}"
+echo -e "     ${y}Buy access permissions for scripts${p}"
+echo -e "             ${y}Contact Admin :${p}"
+echo -e "      ${gb}Telegram${p} t.me/mehonk_mt"
+echo -e "${g}────────────────────────────────────────────${p}"
+exit
+fi
+red() { echo -e "\033[32;1m${*}\${p}"; }
+IP=$(curl -s ipv4.icanhazip.com)
+HOST="$(cat /etc/xray/domain)"
+DATEVPS=$(date +"%d-%B-%Y")
+ISPVPS=$(cat /etc/xray/isp)
+CITY=$(cat /etc/xray/city)
+last="$(cat /etc/xray/link)"
+clear
+function QUESTION() {
+clear
+echo -e ""
+echo -e "${r}WARNING !!!${p}"
+echo -e ""
+echo -e "${b}Save Link Backup For Easy Data Restore${p}"
+sleep 4
+}
+function QUESTION2() {
+clear
+echo -e ""
+echo -e "${r}WARNING !!!${p}"
+echo -e ""
+echo -e "${b}Domain Harus Sama Dengan Data Backup${p}"
+echo -e "${b}Jika Tidak Sama,Vpn Tidak Akan Terhubung${p}"
+echo -e "${b}Domain must be the same as the backup data${p}"
+echo -e "${b}If It's Not the Same, the Vpn Won't Connect${p}"
+sleep 4
+}
+function BACKUPVPS() {
+clear
+mkdir /root/backup
+mkdir -p /root/backup/{xray,ssh,html}
+cd /root/backup
+cp /etc/passwd /root/backup/ >/dev/null 2>&1
+cp /etc/group /root/backup/ >/dev/null 2>&1
+cp /etc/shadow /root/backup/ >/dev/null 2>&1
+cp /etc/gshadow /root/backup/ >/dev/null 2>&1
+cp /etc/xray/config.json /root/backup/xray/ >/dev/null 2>&1
+cp /etc/xray/dns /root/backup/ >/dev/null 2>&1
+cp /etc/xray/domain /root/backup/ >/dev/null 2>&1
+cp /etc/xray/xray.key /root/backup/ >/dev/null 2>&1
+cp /etc/xray/xray.crt /root/backup/ >/dev/null 2>&1
+cp -r /etc/vmess /root/backup/ >/dev/null 2>&1
+cp /etc/ssh/*.log /root/backup/ssh/ >/dev/null 2>&1
+cp /etc/ssh/.ssh.db /root/backup/ssh/ >/dev/null 2>&1
+cp -r /etc/vless /root/backup/ >/dev/null 2>&1
+cp -r /etc/trojan /root/backup/ >/dev/null 2>&1
+cp -r /etc/shadowsocks /root/backup/ >/dev/null 2>&1
+find /var/www/html/ -name "*.txt" ! -name "psiphon.txt" -exec cp {} /root/backup/html/ \; >/dev/null 2>&1
+cp -r /var/www/html/*.yaml /root/backup/html/ >/dev/null 2>&1
+cd
+zip -r UT-$IP-$MEK.zip backup
+rclone copy UT-$IP-$MEK.zip dr:backup/
+url=$(rclone link dr:backup/UT-$IP-$MEK.zip)
+id=(`echo $url | grep '^https' | cut -d'=' -f2`)
+LINKBACKUP="https://drive.google.com/u/4/uc?id=${id}&export=download"
+echo $LINKBACKUP >/etc/xray/link
+sleep 2
+echo -e " ${g}┌──────────────────────────────────────────┐${p}"
+echo -e "        SUCCESSFULL BACKUP YOUR VPS"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e " ${g}┌──────────────────────────────────────────┐${p}"
+echo -e " ${b} Your VPS IP${p} : ${g}$IP${p}"
+echo -e " ${b} DOMAIN${p}      : ${g}$HOST${p}"
+echo -e " ${b} DATE${p}        : ${g}$DATEVPS${p}"
+echo -e " ${b} ISP${p}         : ${g}$ISPVPS${p}"
+echo -e " ${b} LOCATION${p}    : ${g}$CITY${p}"
+echo -e " ${b} LINK BACKUP${p} : ${g}$LINKBACKUP${p}"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e "     Please Save The Following Data"
+rm -r backup && rm UT-$IP-$MEK.zip
+read -n 1 -s -r -p "   Press [ Enter ] to back on menu"
+get-backres
+}
+function RESTOREVPS() {
+clear
+cd
+read -p "Plase Input Link : " DATA
+wget -O backup.zip "$DATA"
+unzip backup.zip
+rm -f backup.zip
+sleep 1
+echo " start to restore data"
+cd /root/backup
+cp passwd /etc/
+cp group /etc/
+cp shadow /etc/
+cp gshadow /etc/
+cp -r xray /etc/
+cp -r vmess /etc/
+cp -r ssh /etc/
+cp -r vless /etc/
+cp -r trojan /etc/
+cp -r shadowsocks /etc/
+cp -r html /var/www/
+cd
+rm -r backup && rm backup.zip
+clear
+echo -e " ${g}┌──────────────────────────────────────────┐${p}"
+echo -e "        SUCCESSFULL RESTORE YOUR VPS"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e " ${gb} Your VPS IP${p} : ${b}$IP${p}"
+echo -e " ${gb} DOMAIN${p}      : ${b}$HOST${p}"
+echo -e " ${gb} DATE${p}        : ${b}$DATEVPS${p}"
+echo -e " ${gb} ISP${p}         : ${b}$ISPVPS${p}"
+echo -e " ${gb} LOCATION${p}    : ${b}$CITY${p}"
+echo -e " ${gb} LINK RESTORE${p}: ${b}$DATA${p}"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e "     ${b}This feature can only be used if the previous data backup uses this script${p}"
+echo -e "     ${b}Please Restart Service${p}"
+sleep 2
+read -n 1 -s -r -p "   Press [ Enter ] to restart service"
+printf "%s
+" "4" | get-service
+}
+auto_backup() {
+switch=$(grep -i "switch" /root/.config/.backup | awk '{print $2}')
+if [ "${switch}" == "on" ]; then
+sed -i 's/switch on/switch off/g' /root/.config/.backup
+rm /etc/cron.d/daily_backup
+service cron restart >/dev/null 2>&1
+service cron reload >/dev/null 2>&1
+echo "Turn Off"
+sleep 2
+else
+sed -i 's/switch off/switch on/g' /root/.config/.backup
+cat >/etc/cron.d/daily_backup << EOF
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+55 23 * * * root /etc/shell/set backup
+EOF
+service cron restart >/dev/null 2>&1
+service cron reload >/dev/null 2>&1
+echo "Turn On"
+sleep 2
+fi
+sleep 1
+read -n 1 -s -r -p "   Press [ Enter ] to back on menu"
+get-backres
+}
+switch=$(grep -i "switch" /root/.config/.backup | awk '{print $2}')
+clear
+if [ "${switch}" == "on" ]; then
+sts="${b}[ON]${p}"
+else
+sts="${r}[OFF]${p}"
+fi
+clear
+echo -e " ${g}┌──────────────────────────────────────────┐${p}"
+echo -e "   ${b}            BACKUP & RESTORE            ${p}"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e " ${g}┌──────────────────────────────────────────┐${p}"
+echo -e "   ${gb}[1]•${b} Backup Data VPS${p}"
+echo -e "   ${gb}[2]•${b} AutoBackup Data VPS${p}"
+echo -e "   ${gb}[3]•${b} Restore Data VPS${p}"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e " ${g}┌──────────────────────────────────────────┐${p}"
+echo -e " ${gb}  AUTO BACKUP ${p}: $sts"
+echo -e " ${gb}  LAST BACKUP ${p}: $last"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e ""
+read -p "   Select From Options [ 1 - 2 ] : " OPT_MENU
+echo -e ""
+case $OPT_MENU in
+1)
+QUESTION
+BACKUPVPS
+;;
+2)
+auto_backup
+;;
+3)
+QUESTION2
+RESTOREVPS
+;;
+*)
+echo -e "${Red}You wrong command !${Font}"
+sleep 1
+menu
+;;
+esac

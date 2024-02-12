@@ -1,0 +1,77 @@
+#!/bin/bash
+# Edition : Stable Edition V2.0
+# Auther  : Muh Aripin Ilham
+# (C) Copyright 2023-2024 By  Under Tunnel
+# =========================================
+#!/bin/bash
+repo=https://raw.githubusercontent.com/gazzent/ip/main/ip
+ipsaya=$(wget -qO- ipv4.icanhazip.com);
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+useexp=$(wget -qO- ${repo} | grep $ipsaya | awk '{print $4}')
+if [[ $date_list < $useexp ]]; then
+echo -ne
+else
+exit
+fi
+function vm() (
+user=${2}
+exp=${3}
+uuid=${4}
+sed -i '/#vmess$/a\### '"$user $exp"'\
+},{"id": "'""$uuid""'","alterId": '"0"',"email": "'""$user""'"' /etc/xray/config.json
+sed -i '/#vmessgrpc$/a\### '"$user $exp"'\
+},{"id": "'""$uuid""'","alterId": '"0"',"email": "'""$user""'"' /etc/xray/config.json
+systemctl restart xray
+)
+function vl() (
+user=${2}
+exp=${3}
+uuid=${4}
+sed -i '/#vless$/a\### '"$user $exp"'\
+},{"id": "'""$uuid""'","alterId": '"0"',"email": "'""$user""'"' /etc/xray/config.json
+sed -i '/#vlessgrpc$/a\### '"$user $exp"'\
+},{"id": "'""$uuid""'","alterId": '"0"',"email": "'""$user""'"' /etc/xray/config.json
+systemctl restart xray
+)
+function tr() (
+user=${2}
+exp=${3}
+uuid=${4}
+sed -i '/#trojanws$/a\#tr# '"$user $exp"'\
+},{"password": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
+sed -i '/#trojangrpc$/a\#tr# '"$user $exp"'\
+},{"password": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
+systemctl restart xray
+)
+function ss() (
+user=${2}
+exp=${3}
+uuid=${4}
+sed -i '/#ssws$/a\#ss# '"$user $exp"'\
+},{"password": "'""$uuid""'","method": "'""$cipher""'","email": "'""$user""'"' /etc/xray/config.json
+sed -i '/#ssgrpc$/a\#ss# '"$user $exp"'\
+},{"password": "'""$uuid""'","method": "'""$cipher""'","email": "'""$user""'"' /etc/xray/config.json
+systemctl restart xray
+)
+function sssh() (
+user=${2}
+passwd -u $user
+systemctl restart ssh
+systemctl restart sshd
+)
+if [[ ${1} == "vmess" ]]; then
+vm
+fi
+if [[ ${1} == "vless" ]]; then
+vl
+fi
+if [[ ${1} == "trojan" ]]; then
+tr
+fi
+if [[ ${1} == "ss" ]]; then
+ss
+fi
+if [[ ${1} == "ssh" ]]; then
+sssh
+fi

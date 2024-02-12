@@ -1,0 +1,200 @@
+#!/bin/bash
+# Edition : Stable Edition V2.0
+# Auther  : Muh Aripin Ilham
+# (C) Copyright 2023-2024 By  Under Tunnel
+# =========================================
+#!/bin/bash
+clear
+repo=https://raw.githubusercontent.com/irawancandra6699/izin/main/hafira
+ipsaya=$(wget -qO- ipinfo.io/ip);
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+useexp=$(wget -qO- ${repo} | grep $ipsaya | awk '{print $4}')
+if [[ $date_list < $useexp ]]; then
+echo -ne
+else
+exit
+fi
+MYIP=$(wget -qO- ipinfo.io/ip);
+DOMAIN=$(cat /etc/xray/domain)
+ADDR="s/xxxxxxxxx/$DOMAIN/g";
+apt install -y tmux
+function ovpn_install() {
+rm -rf /etc/openvpn
+mkdir -p /etc/openvpn
+wget -O /etc/openvpn/vpn.zip "https://package.makhlukvpn.my.id/core/vpn.zip" >/dev/null 2>&1
+cd /etc/openvpn && unzip vpn.zip
+rm vpn.zip && cd
+}
+function config_easy() {
+cd
+mkdir -p /usr/lib/openvpn/
+cp /usr/lib/x86_64-linux-gnu/openvpn/plugins/openvpn-plugin-auth-pam.so /usr/lib/openvpn/openvpn-plugin-auth-pam.so
+sed -i 's/#AUTOSTART="all"/AUTOSTART="all"/g' /etc/default/openvpn
+systemctl enable --now openvpn
+systemctl enable --now openvpn-server@server-tcp
+systemctl enable --now openvpn-server@server-udp
+/etc/init.d/openvpn restart
+}
+function make_follow() {
+cat > /etc/openvpn/server-tcp.conf <<-END
+port 1194
+proto tcp
+dev tun
+ca ca.crt
+cert server.crt
+key server.key
+dh dh.pem
+verify-client-cert none
+username-as-common-name
+plugin /usr/lib/x86_64-linux-gnu/openvpn/plugins/openvpn-plugin-auth-pam.so login
+server 10.8.0.0 255.255.255.0
+ifconfig-pool-persist ipp.txt
+push "redirect-gateway def1 bypass-dhcp"
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
+push "route-method exe"
+push "route-delay 2"
+socket-flags TCP_NODELAY
+push "socket-flags TCP_NODELAY"
+keepalive 10 120
+comp-lzo
+user nobody
+group nogroup
+persist-key
+persist-tun
+management 127.0.0.1 5555
+status server-tcp.log
+log log-tcp.log
+verb 3
+ncp-disable
+cipher none
+END
+cat > /etc/openvpn/server-udp.conf <<-END
+port 2200
+proto udp
+dev tun
+ca ca.crt
+cert server.crt
+key server.key
+dh dh.pem
+verify-client-cert none
+username-as-common-name
+plugin /usr/lib/x86_64-linux-gnu/openvpn/plugins/openvpn-plugin-auth-pam.so login
+server 20.8.0.0 255.255.255.0
+ifconfig-pool-persist ipp.txt
+push "redirect-gateway def1 bypass-dhcp"
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
+push "route-method exe"
+push "route-delay 2"
+socket-flags TCP_NODELAY
+push "socket-flags TCP_NODELAY"
+keepalive 10 120
+comp-lzo
+user nobody
+group nogroup
+persist-key
+persist-tun
+status server-udp.log
+log log-udp.log
+verb 3
+ncp-disable
+cipher none
+END
+cat > /etc/openvpn/"$DOMAIN"-tcp.ovpn <<-END
+auth-user-pass
+client
+dev tun
+proto tcp
+remote xxxxxxxxx 1194
+persist-key
+persist-tun
+pull
+resolv-retry infinite
+nobind
+user nobody
+comp-lzo
+remote-cert-tls server
+verb 3
+mute 2
+connect-retry 5 5
+connect-retry-max 8080
+mute-replay-warnings
+redirect-gateway def1
+script-security 2
+cipher none
+auth none
+END
+sed -i $ADDR /etc/openvpn/"$DOMAIN"-tcp.ovpn;
+cat > /etc/openvpn/"$DOMAIN"-udp.ovpn <<-END
+auth-user-pass
+client
+dev tun
+proto udp
+remote xxxxxxxxx 2200
+persist-key
+persist-tun
+pull
+resolv-retry infinite
+nobind
+user nobody
+comp-lzo
+remote-cert-tls server
+verb 3
+mute 2
+connect-retry 5 5
+connect-retry-max 8080
+mute-replay-warnings
+redirect-gateway def1
+script-security 2
+cipher none
+auth none
+END
+sed -i $ADDR /etc/openvpn/"$DOMAIN"-udp.ovpn;
+cat > /etc/openvpn/"$DOMAIN"-ssl.ovpn <<-END
+auth-user-pass
+client
+dev tun
+proto tcp
+remote xxxxxxxxx 443
+persist-key
+persist-tun
+pull
+resolv-retry infinite
+nobind
+user nobody
+comp-lzo
+remote-cert-tls server
+verb 3
+mute 2
+connect-retry 5 5
+connect-retry-max 8080
+mute-replay-warnings
+redirect-gateway def1
+script-security 2
+cipher none
+auth none
+END
+sed -i $ADDR /etc/openvpn/"$DOMAIN"-ssl.ovpn;
+}
+function cert_ovpn() {
+echo '<ca>' >> /etc/openvpn/"$DOMAIN"-tcp.ovpn
+cat /etc/openvpn/ca.crt >> /etc/openvpn/"$DOMAIN"-tcp.ovpn
+echo '</ca>' >> /etc/openvpn/"$DOMAIN"-tcp.ovpn
+echo '<ca>' >> /etc/openvpn/"$DOMAIN"-udp.ovpn
+cat /etc/openvpn/ca.crt >> /etc/openvpn/"$DOMAIN"-udp.ovpn
+echo '</ca>' >> /etc/openvpn/"$DOMAIN"-udp.ovpn
+echo '<ca>' >> /etc/openvpn/"$DOMAIN"-ssl.ovpn
+cat /etc/openvpn/ca.crt >> /etc/openvpn/"$DOMAIN"-ssl.ovpn
+echo '</ca>' >> /etc/openvpn/"$DOMAIN"-ssl.ovpn
+cd /etc/openvpn/ && zip OpenVPN.zip *.ovpn
+mv OpenVPN.zip /var/www/html/ && cd
+}
+function install_ovpn() {
+ovpn_install
+make_follow
+cert_ovpn
+config_easy
+}
+install_ovpn

@@ -1,0 +1,129 @@
+#!/bin/bash
+# Edition : Stable Edition V2.0
+# Auther  : Muh Aripin Ilham
+# (C) Copyright 2023-2024 By  Under Tunnel
+# =========================================
+#!/bin/bash
+g=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 2)
+gb=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 3)
+b=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 4)
+p=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 5)
+r=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 6)
+y=$(cat /usr/sbin/mtsc.list | grep "^color" | cut -d " " -f 7)
+MYIP=$(wget -qO- ipv4.icanhazip.com);
+echo "Loading..."
+repo=https://raw.githubusercontent.com/gazzent/ip/main/ip
+ipsaya=$(wget -qO- ipv4.icanhazip.com);
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+useexp=$(wget -qO- ${repo} | grep $ipsaya | awk '{print $4}')
+if [[ $date_list < $useexp ]]; then
+echo -ne
+else
+echo -e "${g}────────────────────────────────────────────${p}"
+echo -e "${b}          404 NOT FOUND AUTOSCRIPT          ${p}"
+echo -e "${g}────────────────────────────────────────────${p}"
+echo -e ""
+echo -e "            ${r}PERMISSION DENIED OR!${p}"
+echo -e "   ${y}Your VPS${p} $ipsaya ${y}Expired${p}"
+echo -e "     ${y}Buy access permissions for scripts${p}"
+echo -e "             ${y}Contact Admin :${p}"
+echo -e "      ${gb}Telegram${p} t.me/mehonk_mt"
+echo -e "${g}────────────────────────────────────────────${p}"
+exit
+fi
+Wonder=$(cat /home/limit)
+IFACE=$(ip -4 route show to default | awk '{print $5}');
+function start () {
+echo -e "Limit Speed All Service"
+read -p "Set maximum download rate (in Kbps): " down
+read -p "Set maximum upload rate (in Kbps): " up
+if [[ -z "$down" ]] && [[ -z "$up" ]]; then
+echo > /dev/null 2>&1
+else
+echo "Start Configuration"
+sleep 0.5
+wondershaper -a $IFACE -d $down -u $up > /dev/null 2>&1
+cat > /etc/systemd/wondershaper.conf << END
+[wondershaper]
+IFACE="$IFACE"
+DSPEED="$down"
+USPEED="$up"
+HIPRIODST=()
+COMMONOPTIONS=()
+NOPRIOHOSTSRC=(80);
+NOPRIOHOSTDST=();
+NOPRIOPORTSRC=();
+NOPRIOPORTDST=();
+END
+cat > /etc/systemd/system/wondershaper.service << END
+[Unit]
+Description=Bandwidth-Limit
+Documentation=https://t.me/mehonk_mt
+After=syslog.target network-online.target
+[Service]
+User=root
+NoNewPrivileges=true
+ExecStart=/usr/local/sbin/wondershaper -a $IFACE -d $down -u $up
+Restart=on-failure
+RestartPreventExitStatus=23
+LimitNPROC=10000
+LimitNOFILE=1000000
+[Install]
+WantedBy=multi-user.target
+END
+systemctl daemon-reload
+systemctl enable --now wondershaper.service
+sleep 0.5
+echo "start" > /home/limit
+echo "Done"
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+menu
+fi
+}
+function stop () {
+wondershaper -ca $IFACE
+systemctl disable --now wondershaper.service
+echo "Stop Configuration"
+sleep 0.5
+echo > /home/limit
+echo "Done"
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+menu
+}
+if [[ $Wonder == "start" ]]; then
+status="${b}[ON]${p}"
+else
+status="${r}[OFF]${p}"
+fi
+clear
+echo -e " ${g}┌──────────────────────────────────────────┐${p}"
+echo -e " ${y}│         ${b}LIMIT BANDWIDTH MENU${p}             ${y}|${p}"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e " ${g}┌──────────────────────────────────────────┐${p}"
+echo -e "   ${gb}[1]•${b} Start Limit Bandwidth${p}"
+echo -e "   ${gb}[2]•${b} Stop Limit Bandwidth${p}"
+echo -e "   ${gb}[3]•${b} Back To Menu${p}"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e " ${g}┌──────────────────────────────────────────┐${p}"
+echo -e "   ${gb} Bandwidth Status : $status"
+echo -e " ${g}└──────────────────────────────────────────┘${p}"
+echo -e ""
+read -p "   Select From Options [ 1 - 3 ] : " OPT_MENU
+echo -e ""
+case $OPT_MENU in
+1)
+start
+;;
+2)
+stop
+;;
+3)
+menu
+;;
+*)
+echo -e "${Red}You wrong command !${Font}"
+sleep 1
+menu
+;;
+esac

@@ -1,0 +1,32 @@
+#!/bin/bash
+# Edition : Stable Edition V2.0
+# Auther  : Muh Aripin Ilham
+# (C) Copyright 2023-2024 By  Under Tunnel
+# =========================================
+#!/bin/bash
+echo > /var/log/letsencrypt/letsencrypt.log
+echo > /var/log/secure
+echo > /var/log/auth.log
+echo > /var/log/syslog
+echo > /var/log/btmp
+echo > /var/log/messages
+echo > /var/log/debug
+echo > /var/log/kern.log
+echo > /var/log/fail2ban.log
+echo > /var/log/fail2ban.log.1
+echo > /var/log/haproxy.log
+echo > /var/log/haproxy.log.1
+echo > /var/log/xray/access.log
+echo > /var/log/xray/error.log
+echo > /var/log/nginx/access.log
+echo > /var/log/nginx/access.log.1
+echo > /var/log/nginx/error.log
+echo > /var/log/nginx/error.log.1
+echo > /var/log/squid/access.log
+echo > /var/log/squid/access.log.1
+echo > /var/log/squid/cache.log
+echo > /var/log/squid/cache.log.1
+echo > /etc/openvpn/server/openvpn-status.log
+echo > /etc/openvpn/server/openvpn-tcp.log
+echo > /etc/openvpn/server/openvpn-udp.log
+clear
